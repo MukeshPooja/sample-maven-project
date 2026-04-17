@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!-- ✅ SonarQube Properties -->
-        <sonar.host.url>http://<YOUR-SONARQUBE-IP>:9000</sonar.host.url>
+        <sonar.host.url>http://54.242.3.165:9000</sonar.host.url>
         <sonar.projectKey>sample-maven-project</sonar.projectKey>
         <sonar.projectName>Sample Maven Project</sonar.projectName>
         <sonar.sources>src/main/java</sonar.sources>
