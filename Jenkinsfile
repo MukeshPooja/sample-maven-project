@@ -76,37 +76,6 @@ pipeline {
                 }
             }
         }
-        
-        stage('Package for Deployment') {
-            when {
-                branch 'main'
-            }
-            steps {
-               echo '📦 Packaging application for deployment...'
-        
-        // Archive the JAR
-        archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
-        
-        // Optional: Deploy to server
-        sh '''
-            echo "🚀 Deploying to server..."
-            # Add your deployment commands here:
-            # scp target/*.jar user@server:/opt/app/
-            # ssh user@server "systemctl restart myapp"
-        '''
-        
-        echo '✅ Deployment complete!'
-            }
-            post {
-                success {
-            echo '🎉 Application deployed successfully!'
-        }
-        failure {
-            echo '❌ Deployment failed - check logs'
-        }
-            }
-        }
-    }
     
     post {
         always {
