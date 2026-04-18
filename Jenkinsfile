@@ -43,40 +43,42 @@ pipeline {
                 withSonarQubeEnv('SonarQube-Prod') {
                     sh '''
                         mvn sonar:sonar \
-                         -Dsonar.projectKey=sample-maven-project \
-                         -Dsonar.host.url=${SONAR_HOST_URL} \
-                         -Dsonar.login=${SONAR_AUTH_TOKEN} \
-                         -Dsonar.sources=src/main/java \
-                         -Dsonar.tests=src/test/java \
-                         -Dsonar.java.binaries=target/classes \
-                         -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                          -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                          -Dsonar.host.url=${SONAR_HOST_URL} \
+                          -Dsonar.login=${SONAR_AUTH_TOKEN} \
+                          -Dsonar.sources=src/main/java \
+                          -Dsonar.tests=src/test/java \
+                          -Dsonar.java.binaries=target/classes \
+                          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                     '''
                 }
             }
         }
         
         stage('Quality Gate') {
-    steps {
-        echo '🚦 Waiting for SonarQube Quality Gate...'
-        script {
-            // Wait for quality gate with proper timeout
-            timeout(time: 15, unit: 'MINUTES') {
-                def qualityGateStatus = waitForQualityGate()
-                echo "Quality Gate Result: ${qualityGateStatus}"
+            steps {
+                echo '🚦 Waiting for SonarQube Quality Gate...'
+                script {
+                    // Wait for quality gate with proper timeout
+                    timeout(time: 15, unit: 'MINUTES') {
+                        def qualityGateStatus = waitForQualityGate()
+                        echo "Quality Gate Result: ${qualityGateStatus}"
+                    }
+                }
             }
-        }
-    }
             post {
                 success {
                     echo '✅ Quality Gate passed - code meets standards'
                 }
                 failure {
                     echo '❌ Quality Gate failed - fix issues and re-run'
-                    // Optional: Send notification
                 }
             }
         }
+        // ✅ stages block closes HERE
+    }
     
+    // ✅ Pipeline-level post block (outside stages)
     post {
         always {
             echo '🧹 Cleaning workspace...'
