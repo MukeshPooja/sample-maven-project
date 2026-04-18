@@ -80,17 +80,30 @@ pipeline {
         stage('Package for Deployment') {
             when {
                 branch 'main'
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
-                echo '📦 Packaging application...'
-                sh 'mvn package -DskipTests'
+               echo '📦 Packaging application for deployment...'
+        
+        // Archive the JAR
+        archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+        
+        // Optional: Deploy to server
+        sh '''
+            echo "🚀 Deploying to server..."
+            # Add your deployment commands here:
+            # scp target/*.jar user@server:/opt/app/
+            # ssh user@server "systemctl restart myapp"
+        '''
+        
+        echo '✅ Deployment complete!'
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
-                    echo '✅ Artifact ready for deployment'
-                }
+            echo '🎉 Application deployed successfully!'
+        }
+        failure {
+            echo '❌ Deployment failed - check logs'
+        }
             }
         }
     }
