@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.example</groupId>
     <artifactId>sample-maven-project</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -15,45 +15,43 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-        <!-- ✅ SonarQube Properties -->
+
+        <!-- SonarQube Properties -->
         <sonar.host.url>http://54.242.3.165:9000</sonar.host.url>
         <sonar.projectKey>sample-maven-project</sonar.projectKey>
         <sonar.projectName>Sample Maven Project</sonar.projectName>
         <sonar.sources>src/main/java</sonar.sources>
         <sonar.tests>src/test/java</sonar.tests>
         <sonar.java.binaries>target/classes</sonar.java.binaries>
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            target/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
-        <!-- Add your project dependencies here -->
-        <!-- CORRECT — JUnit 5 (what AppTest.java needs) -->
-<dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.10.1</version>
             <scope>test</scope>
-        </dependency>                                <!-- ✅ closes dependency -->
-
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.10.1</version>
             <scope>test</scope>
-        </dependency>                                <!-- ✅ closes dependency -->
-
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.10.1</version>
             <scope>test</scope>
-        </dependency>   
+        </dependency>
+    </dependencies>
 
- <dependencies>
- 
     <build>
         <plugins>
+
             <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -65,7 +63,14 @@
                 </configuration>
             </plugin>
 
-            <!-- ✅ JaCoCo for Test Coverage -->
+            <!-- Surefire — required for JUnit 5 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+            </plugin>
+
+            <!-- JaCoCo for Test Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -87,12 +92,14 @@
                 </executions>
             </plugin>
 
-            <!-- ✅ SonarQube Plugin -->
+            <!-- SonarQube Plugin -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>54.242.3.165</version>
+                <version>3.10.0.2594</version>
             </plugin>
+
         </plugins>
     </build>
+
 </project>
